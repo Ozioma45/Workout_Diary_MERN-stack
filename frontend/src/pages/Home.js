@@ -1,12 +1,14 @@
-import React from "react";
 import { useEffect, useState } from "react";
+
+// components
+import WorkoutDetails from "../components/WorkoutDetails";
 
 const Home = () => {
   const [workouts, setWorkouts] = useState(null);
 
   useEffect(() => {
-    const fetchWWorkouts = async () => {
-      const response = await fetch("http://localhost:4000/api/workouts");
+    const fetchWorkouts = async () => {
+      const response = await fetch("/api/workouts");
       const json = await response.json();
 
       if (response.ok) {
@@ -14,13 +16,16 @@ const Home = () => {
       }
     };
 
-    fetchWWorkouts();
-  }, {});
+    fetchWorkouts();
+  }, []);
+
   return (
     <div className="home">
       <div className="workouts">
         {workouts &&
-          workouts.map((Workout) => <p key={Workout._id}>{Workout.title}</p>)}
+          workouts.map((workout) => (
+            <WorkoutDetails workout={workout} key={workout._id} />
+          ))}
       </div>
     </div>
   );
